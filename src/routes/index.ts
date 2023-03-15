@@ -19,7 +19,7 @@ type errorType = {
 
 const router: Router = Router();
 
-router.use(jwtAuth);
+// router.use(jwtAuth);
 
 router.use('/demo', demoRouter);
 
