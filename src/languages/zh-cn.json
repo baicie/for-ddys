@@ -1,0 +1,17 @@
+{
+  "hello": "你好",
+  "error": {
+    "Unexpected": "预期外的错误"
+  },
+  "user": {
+    "admin": {
+      "emptyUserNameMessage": "用户名不能为空",
+      "notStringUserNameMessage": "用户名类型错误",
+      "emptyPasswordMessage": "密码不能为空",
+      "notStringPasswordMessage": "密码类型错误",
+
+      "createSuccessMessage": "管理员创建成功",
+      "adminExistence": "当前用户名已存在"
+    }
+  }
+}
