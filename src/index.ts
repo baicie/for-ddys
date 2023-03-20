@@ -1,9 +1,12 @@
+/* eslint-disable no-console */
 import type { Browser, Page } from 'puppeteer';
 import puppeteer from 'puppeteer-extra';
-import connection from './utils/db/db';
 import AdblockerPlugin from 'puppeteer-extra-plugin-adblocker';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 import type { DataSource } from 'typeorm';
+import color from 'picocolors';
+import cheerio from 'cheerio';
+import connection from './utils/db/db';
 
 puppeteer.use(AdblockerPlugin()).use(StealthPlugin());
 
@@ -21,29 +24,32 @@ async function main() {
       defaultViewport: null,
     });
     database = await connection.initialize();
-    console.log('init success');
+    page = await browser.newPage();
+    console.log(color.green('init success'));
   } catch (error) {
-    if (browser) {
-      browser.close();
-    }
-    console.log('error', error);
+    if (browser) browser.close();
+
+    console.log(color.yellow(`error${error}`));
   }
 }
 
-async function OpenPage() {
+async function getPage(num: number) {
   try {
-    if (!(browser && database)) return;
-    const url = `${basePath}/category/movie/`;
-    page = await browser.newPage();
-
-    await page.goto(url);
-  } catch (error) {}
-}
-
-async function getPlays(id: string, type: string) {
-  // https://ddys.one/ddrk_plays/20216172/chao_qing
+    if (!(browser && database && page)) return;
+    for (let i = 1; i < num + 1; i++) {
+      //
+      const url = `${basePath}/category/movie/page/${i}`;
+      await page.goto(url);
+      const $ = cheerio.load(await page.content());
+      const list = $('.post-box-list').find('article');
+      for (const item of list)
+        console.log(color.blue(item.attribs['data-href']));
+    }
+  } catch (error) {
+    console.log(color.yellow(`error${error}`));
+  }
 }
 
 main().then(() => {
-  OpenPage();
+  getPage(1);
 });
