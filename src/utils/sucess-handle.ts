@@ -5,6 +5,6 @@ export function defaultSucesshandler(res: Response, data: unknown = null) {
   res.json({
     code: CODE_SUCCESS,
     msg: MESSAGE_SUCCESS,
-    data: data,
+    data,
   });
 }

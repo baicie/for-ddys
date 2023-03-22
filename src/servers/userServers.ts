@@ -3,7 +3,7 @@ import type { NextFunction, Request, Response } from 'express';
 import { validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';
 import { User } from '../entity';
-import { CODE_SUCCESS, decode, MESSAGE_SUCCESS, PRIVATE_KEY } from '../utils';
+import { CODE_SUCCESS, MESSAGE_SUCCESS, PRIVATE_KEY, decode } from '../utils';
 import connection from '../utils/db/db';
 import { defaultErrorHandler } from '../utils/error-handle';
 import { defaultSucesshandler } from '../utils/sucess-handle';
@@ -48,7 +48,7 @@ export async function createAdmin(
     try {
       const admin = await userRepository.findOneBy({
         role: 'admin',
-        username: username,
+        username,
       });
       if (admin) {
         next(boom.badRequest('error', res.__('user.admin.adminExistence')));
@@ -99,8 +99,8 @@ export async function login(req: Request, res: Response, next: NextFunction) {
     const { username, password } = req.body as User;
     try {
       const user = await userRepository.findOneBy({
-        username: username,
-        password: password,
+        username,
+        password,
       });
       // console.log("user", user);
 
@@ -119,7 +119,7 @@ export async function login(req: Request, res: Response, next: NextFunction) {
         const result = {
           ...user,
           password: '',
-          token: token,
+          token,
         };
 
         res.json({

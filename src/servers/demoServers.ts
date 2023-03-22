@@ -1,7 +1,7 @@
-import type { Request, Response, NextFunction } from 'express';
-import { CODE_ERROR } from '../utils/constant';
+import type { NextFunction, Request, Response } from 'express';
 import boom from '@hapi/boom';
 import { validationResult } from 'express-validator';
+import { CODE_ERROR } from '../utils/constant';
 import { Base } from '../entity/Base';
 import connection from '../utils/db/db';
 

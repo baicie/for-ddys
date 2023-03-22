@@ -52,7 +52,7 @@ export function jwtSign(userId: string, role: UserRoleType) {
   return jwt.sign(
     {
       userid: userId,
-      role: role,
+      role,
     },
     PRIVATE_KEY,
     {

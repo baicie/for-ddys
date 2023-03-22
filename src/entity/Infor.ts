@@ -1,4 +1,3 @@
-import { Movice } from './Movie';
 import {
   Column,
   Entity,
@@ -6,6 +5,7 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Movice } from './Movie';
 
 @Entity()
 export class Infor {

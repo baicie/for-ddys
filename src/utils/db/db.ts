@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm';
-import { Infor, Movice, Play, User } from '../../entity';
+import { Infor, Movice, Play } from '../../entity';
 
 const connection = new DataSource({
   type: 'mysql',
@@ -9,7 +9,7 @@ const connection = new DataSource({
   username: 'zsw',
   password: 'a123456',
   logging: false,
-  entities: [User, Movice, Play, Infor],
+  entities: [Movice, Play, Infor],
   synchronize: true,
 });
 

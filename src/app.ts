@@ -1,14 +1,14 @@
 import express from 'express';
 import 'reflect-metadata';
-import connection from './utils/db/db';
-import routers from './routes';
 import bodyParser from 'body-parser';
 import i18n from 'i18n';
 import cors from 'cors';
+import routers from './routes';
+import connection from './utils/db/db';
 
 i18n.configure({
   locales: ['en', 'zh-cn'], // 声明包含语言
-  directory: __dirname + '/languages', // 设置语言文件目录
+  directory: `${__dirname}/languages`, // 设置语言文件目录
   queryParameter: 'lang', // 设置查询参数
   defaultLocale: 'zh-cn', // 设置默认语言
   objectNotation: true,
@@ -32,7 +32,7 @@ app.use('/api', routers);
 connection
   .initialize()
   .then(() => {
-    console.log(`typeorm has started `);
+    console.log('typeorm has started ');
   })
   .catch((error) => {
     console.error(`typeorm error:${error}`);

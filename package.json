@@ -6,7 +6,8 @@
     "build": "tsc",
     "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx --fix",
     "format": "prettier --write \"./**/*.{html,vue,ts,js,json,md}\"",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "fix": "eslint . --fix"
   },
   "dependencies": {
     "@hapi/boom": "^10.0.1",
@@ -25,7 +26,8 @@
     "puppeteer-extra-plugin-adblocker": "^2.13.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2",
     "reflect-metadata": "^0.1.13",
-    "typeorm": "^0.3.12"
+    "typeorm": "^0.3.12",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.37.0",
@@ -54,7 +56,6 @@
   },
   "lint-staged": {
     "src/**/*.{js,ts}": [
-      "eslint --cache --fix",
       "prettier --write"
     ]
   }

@@ -1,10 +1,10 @@
-import { Request, Response, Router } from 'express';
-import { jwtAuth } from '../utils/user-jwt';
+import type { Request, Response } from 'express';
+import { Router } from 'express';
 import demoRouter from './demo';
 import pm2Router from './pm2';
 import userRouter from './user';
 
-type errorType = {
+interface errorType {
   name: string;
   status: number;
   message: string;
@@ -15,7 +15,7 @@ type errorType = {
     };
   };
   data: unknown;
-};
+}
 
 const router: Router = Router();
 

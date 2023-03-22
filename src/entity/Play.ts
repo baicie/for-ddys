@@ -20,7 +20,7 @@ export class Play {
   type?: PlayType;
 
   @Column()
-  plya?: string;
+  play?: string;
 
   @Column()
   site?: string;
