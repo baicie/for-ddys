@@ -55,14 +55,14 @@ async function getPages(num: number) {
       const titles = list.find('.post-box-title');
       const locals = list.find('.post-box-meta');
 
-      for (let i = 0; i < articles.length; i++) {
-        const article = articles[i]?.attribs['data-href']?.slice(5, 13);
+      for (let j = 0; j < articles.length; j++) {
+        const article = articles[j]?.attribs['data-href']?.slice(5, 13);
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
-        const title = titles[i]?.children[0].children[0].data;
+        const title = titles[j]?.children[0].children[0].data;
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
-        const local = locals[i]?.children[0].data;
+        const local = locals[j]?.children[0].data;
         if (!article) continue;
         const params: Movice = {
           id: article,
@@ -70,11 +70,14 @@ async function getPages(num: number) {
           title,
           local,
         };
-        await setMovice(params);
+        try {
+          await setMovice(params);
+          await getPlaysByMoviceId(params.id);
+          await getMoviceInfo(params.id);
+        } catch (error) {
+          logger.error(`出餐失败${error}`);
+        }
         logger.info(`${title} 现在已加入豪华套餐A`);
-
-        await getPlaysByMoviceId(params.id);
-        await getMoviceInfo(params.id);
       }
     }
   } catch (error) {
@@ -101,7 +104,7 @@ async function getPlaysByMoviceId(moviceId: string) {
         movice: moivce,
       };
       await setPlay(play);
-      logger.info(`${play.play}: 现已加入全面豪华全家桶B`);
+      logger.info(`${play.site}: 现已加入全面豪华全家桶B`);
     }
   }
 }
@@ -139,12 +142,13 @@ async function getMoviceInfo(moviceId: string) {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
   const sart = conten.find('.rating_nums')[0].children[0].data;
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-expect-error
+
   const text =
     conten
       .find('.abstract')[0]
       ?.children.filter((item) => item.type === 'text')
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
       .map((item) => item.data)
       .join('\n') ?? '';
 
@@ -160,19 +164,17 @@ async function getMoviceInfo(moviceId: string) {
 
   await setInfor(infor);
 
-  await page.goBack();
-
   const diff = dayjs().diff(start, 'm');
   logger.info(`${moivceRow.title}耗时${diff}s`);
+
+  await page.goBack();
 }
 
 // 主函数
 async function main() {
   try {
     await initBrowser();
-    await getPages(1);
-
-    // await getMoviceInfo('20221440')
+    await getPages(240);
   } catch (error) {
     logger.error(`main函数捕获${error}`);
   }

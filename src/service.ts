@@ -8,22 +8,20 @@ const playRepository = connection.getRepository(Play);
 const inforRepository = connection.getRepository(Infor);
 
 export async function setMovice(movice: Movice) {
-  const findOneById = await moviceRepository.findOneBy({
-    id: movice.id,
+  // const findOneById = await moviceRepository.findOneBy({
+  //   id: movice.id,
+  // })
+  // if (!findOneById) {
+  const res = moviceRepository.create({
+    ...movice,
   });
-  if (findOneById) {
-    // await moviceRepository.update(Movice, { ...movice })
-  } else {
-    const res = moviceRepository.create({
-      ...movice,
-    });
-    await moviceRepository.save(res);
-  }
+  await moviceRepository.save(res);
+  // }
 }
 
-export async function getMoviceById(id: string) {
+export async function getMoviceById(moviceid: string) {
   return await moviceRepository.findOneBy({
-    id,
+    id: moviceid,
   });
 }
 
@@ -32,17 +30,22 @@ export async function getMovices() {
 }
 
 export async function setPlay(play: Play) {
-  const findOneById = await playRepository.findOneBy({
-    id: play.id,
+  // const findOneById = await playRepository.find({
+  //   relations: {
+  //     movice: true,
+  //   },
+  //   where: {
+  //     id: play.id,
+  //   },
+  // })
+  // if (findOneById) {
+  //   //
+  // }
+  // else {
+  const res = playRepository.create({
+    ...play,
   });
-  if (findOneById) {
-    // await moviceRepository.update(Movice, { ...movice })
-  } else {
-    const res = playRepository.create({
-      ...play,
-    });
-    await playRepository.save(res);
-  }
+  await playRepository.save(res);
 }
 
 export async function getPlaysFormDB() {
@@ -50,17 +53,20 @@ export async function getPlaysFormDB() {
 }
 
 export async function setInfor(infor: Infor) {
-  const findOneById = await inforRepository.findOneBy({
-    // id: infor.id,
-    // movice: infor.movice?.id,
+  // const findOneById = await playRepository.find({
+  //   relations: {
+  //     movice: true,
+  //   },
+  //   where: {
+  //     id: infor.id,
+  //   },
+  // })
+  // if (findOneById) {
+  //   //
+  // }
+  // else {
+  const res = inforRepository.create({
+    ...infor,
   });
-
-  if (findOneById) {
-    //
-  } else {
-    const res = inforRepository.create({
-      ...infor,
-    });
-    await inforRepository.save(res);
-  }
+  await inforRepository.save(res);
 }
