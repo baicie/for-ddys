@@ -27,7 +27,7 @@ const type = ['zheng_pian', 'chao_qing', 'hd'];
 async function initBrowser() {
   try {
     browser = await puppeteer.launch({
-      headless: false,
+      headless: true,
       defaultViewport: null,
     });
     database = await connection.initialize();
@@ -42,10 +42,10 @@ async function initBrowser() {
 }
 
 // 便利pages获取电影id与标题
-async function getPages(num: number) {
+async function getPages(form: number, to: number) {
   try {
     if (!(browser && database && page)) return;
-    for (let i = 1; i < num + 1; i++) {
+    for (let i = form; i < to + 1; i++) {
       //
       const url = `${basePath}/category/movie/page/${i}`;
       await page.goto(url);
@@ -135,10 +135,10 @@ async function getMoviceInfo(moviceId: string) {
   const tagContent = $('.tags-links');
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
-  const title = conten.find('.cute')[0]?.children[0].data;
+  const title = conten.find('.cute')[0]?.children[0].data ?? moivceRow.title;
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
-  const tag = tagContent[0]?.children[1].children[0].data;
+  const tag = tagContent[0]?.children[1].children[0].data ?? '';
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
   const sart = conten.find('.rating_nums')[0].children[0].data;
@@ -174,7 +174,7 @@ async function getMoviceInfo(moviceId: string) {
 async function main() {
   try {
     await initBrowser();
-    await getPages(240);
+    await getPages(66, 240);
   } catch (error) {
     logger.error(`main函数捕获${error}`);
   }

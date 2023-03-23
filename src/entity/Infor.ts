@@ -22,7 +22,7 @@ export class Infor {
   sart?: string;
 
   @Column({
-    length: 1000,
+    length: 2000,
   })
   text?: string;
 
