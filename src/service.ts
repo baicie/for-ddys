@@ -50,8 +50,17 @@ export async function getPlaysFormDB() {
 }
 
 export async function setInfor(infor: Infor) {
-  const res = inforRepository.create({
-    ...infor,
+  const findOneById = await inforRepository.findOneBy({
+    // id: infor.id,
+    // movice: infor.movice?.id,
   });
-  await inforRepository.save(res);
+
+  if (findOneById) {
+    //
+  } else {
+    const res = inforRepository.create({
+      ...infor,
+    });
+    await inforRepository.save(res);
+  }
 }

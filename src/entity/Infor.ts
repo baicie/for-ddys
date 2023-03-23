@@ -10,7 +10,7 @@ import { Movice } from './Movie';
 @Entity()
 export class Infor {
   @PrimaryGeneratedColumn('uuid')
-  id!: number;
+  id!: string;
 
   @Column()
   tag?: string;
@@ -21,13 +21,12 @@ export class Infor {
   @Column()
   sart?: string;
 
-  @Column()
+  @Column({
+    length: 1000,
+  })
   text?: string;
-
-  @Column()
-  same?: string;
 
   @OneToOne(() => Movice)
   @JoinColumn()
-  profile?: Movice;
+  movice?: Movice;
 }

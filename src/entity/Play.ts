@@ -10,7 +10,7 @@ export enum PlayType {
 @Entity()
 export class Play {
   @PrimaryGeneratedColumn('uuid')
-  id!: number;
+  id!: string;
 
   @Column({
     type: 'enum',
